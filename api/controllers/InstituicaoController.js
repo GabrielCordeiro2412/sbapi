@@ -191,9 +191,10 @@ class InstituicaoController {
 
     static async getInstByCodigo(req, res) {
         const { instid } = req.headers;
+        console.log(instid)
 
         try {
-            const instituicao = await Instituicao.findOne({ instid });
+            const instituicao = await Instituicao.findOne({ codigo: instid });
 
             if (!instituicao) {
                 return res.status(404).json({ error: 'Instituição não encontrada' });

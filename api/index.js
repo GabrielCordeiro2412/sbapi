@@ -2,12 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require("morgan");
 const routes = require('./routes/index');
-const http = require('http');
 
 const path = require("path");
 const bodyParser = require('body-parser');
 const app = express();
-const server = http.Server(app);
 
 require("dotenv").config();
 require('./cronjobs/index')

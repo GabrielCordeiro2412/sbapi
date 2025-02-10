@@ -13,32 +13,14 @@ const optionSchema = new mongoose.Schema({
     }
 });
 
-const usersCompleteSchema = new mongoose.Schema({
-    aluno: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        require: true,
-    },
-    nota: {
-        type: Number,
-        required: true
-    }
-});
-
-
 const tarefaSchema = new mongoose.Schema({
     question: {
         type: String,
         required: true
     },
-    turma: {
+    capatarefa: {
         type: Schema.Types.ObjectId,
-        ref: 'Turma',
-        require: false,
-    },
-    materia: {
-        type: Schema.Types.ObjectId,
-        ref: 'Materia',
+        ref: 'CapaTarefa',
         require: true,
     },
     options: {
@@ -48,14 +30,6 @@ const tarefaSchema = new mongoose.Schema({
     },
     correctAnswer: {
         type: String,
-        required: true
-    },
-    dataFinal: {
-        type: Date,
-        required: true
-    },
-    usersConcluidos: {
-        type: [usersCompleteSchema],
         required: true
     }
 }, {

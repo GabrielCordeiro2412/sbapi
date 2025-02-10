@@ -95,9 +95,10 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.post('save', function (user) {
-    enviarEmailSalvar(user)
-})
-
+    if (this.isNew) {
+        enviarEmailSalvar(user);
+    }
+});
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

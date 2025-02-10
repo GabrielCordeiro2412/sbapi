@@ -6,5 +6,6 @@ const LicenseController = require('../controllers/LicenseController');
 
 router
     .get('/license/check', jwtMiddleware, LicenseController.checkLicense)
+    .put('/license/renew', jwtMiddleware, LicenseController.renewLicense)
 
 module.exports = router;

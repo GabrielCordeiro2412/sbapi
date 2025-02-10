@@ -10,8 +10,8 @@ async function checkLicensesValidityAndUpdate() {
         const expiredLicenseIds = [];
 
         for (const license of licenses) {
-            const instid = license.instituicao._id.toString();
-            if(license.active){
+            if(license.active && license.instituicao){
+                const instid = license.instituicao._id.toString();
                 const isLicenseValid = await checkLicenseValidity(instid);
                 if (!isLicenseValid) {
                     console.log(`A licença para a instituição ${license.instituicao.sigla} expirou!`);

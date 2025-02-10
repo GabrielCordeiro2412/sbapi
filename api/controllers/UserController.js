@@ -52,15 +52,15 @@ class UserController {
         try {
             const usuarioEmailExistente = await User.findOne({ email }).populate('turma instituicao');
             if (!usuarioEmailExistente) {
-                return res.status(401).json({ error: 'E-mail ou senha inválidos' });
+                return res.status(404).json({ error: 'E-mail ou senha inválidos' });
             }
             const senhaCorreta = await bcrypt.compare(password, usuarioEmailExistente.password);
             if (!senhaCorreta) {
-                return res.status(401).json({ error: 'E-mail ou senha inválidos' });
+                return res.status(404).json({ error: 'E-mail ou senha inválidos' });
             }
 
             if (!usuarioEmailExistente.active) {
-                return res.status(401).json({ error: 'Cadastro pendente de aprovação!' });
+                return res.status(404).json({ error: 'Cadastro pendente de aprovação!' });
             }
 
             usuarioEmailExistente.password = undefined;

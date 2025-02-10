@@ -1,20 +1,21 @@
 const Tarefa = require('../models/TarefaModel')
+const CapaTarefa = require('../models/CapaTarefaModel')
 
 class TarefaController {
     static async createTarefa(req, res) {
         try {
             const tarefa = await Tarefa.create(req.body);
             res.status(201).json(tarefa);
-        } catch (err) {
-            res.status(400).json(err);
+        } catch (error) {
+            res.status(400).json(error);
         }
     }
     static async getTarefas(req, res) {
         try {
-            const tarefas = await Tarefa.find();
+            const tarefas = await Tarefa.find().populate("capatarefa");
             res.status(201).json(tarefas);
-        } catch (err) {
-            res.status(400).json(err);
+        } catch (error) {
+            res.status(400).json(error);
         }
     }
 
@@ -25,8 +26,8 @@ class TarefaController {
                 return res.status(404).json({ success: false, error: 'Tarefa not found' });
             }
             res.status(200).json(tarefa);
-        } catch (err) {
-            res.status(400).json(err);
+        } catch (error) {
+            res.status(400).json(error);
         }
     }
 
@@ -40,8 +41,8 @@ class TarefaController {
                 return res.status(404).json({ success: false, error: 'Tarefa not found' });
             }
             res.status(200).json(tarefa);
-        } catch (err) {
-            res.status(400).json(err);
+        } catch (error) {
+            res.status(400).json(error);
         }
     }
 
@@ -52,31 +53,27 @@ class TarefaController {
                 return res.status(404).json({ success: false, error: 'Tarefa not found' });
             }
             res.status(200).json({ success: true, data: {} });
-        } catch (err) {
-            res.status(400).json(err);
-        }
-    }
-
-    static async updateUserComplete(req, res) {
-        try {
-            const tarefa = await Tarefa.findById(req.params.id);
-            if (!tarefa) {
-                return res.status(404).json({ success: false, error: 'Tarefa not found' });
-            }
-            const userConcluido = tarefa.usersConcluidos.find(user => user.aluno.toString() === req.body.aluno.toString());
-            if (userConcluido) {
-                return res.status(400).json({ success: false, message: 'User already completed this tarefa' });
-            }
-
-            // Adiciona o aluno à lista de usuários que concluíram a tarefa
-            tarefa.usersConcluidos.push({ aluno: req.body.userid, nota: req.body.nota });
-
-            res.status(200).json(tarefa)
-            await tarefa.save();
         } catch (error) {
-            res.status(400).json(error)
+            res.status(400).json(error);
         }
     }
+
+    static async getAllByCapa(req, res){
+        const {capaid} = req.headers;
+        try {
+            const capa = await CapaTarefa.findById(capaid);
+            if(!capa){
+                return res.status(404).json({success: false, error: 'CapaTarefa not found'});
+            }
+
+            const tarefas = await Tarefa.find({capatarefa: capa._id});
+            res.status(200).json(tarefas);
+        } catch (error) {
+            console.log(error)
+            res.status(400).json(error);
+        }
+    }
+
 }
 
 module.exports = TarefaController;

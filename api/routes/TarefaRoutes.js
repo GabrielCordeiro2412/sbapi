@@ -8,6 +8,6 @@ router.post('/tarefa', TarefaController.createTarefa)
     .get('/tarefa/:id', TarefaController.getTarefaById)
     .put('/tarefa/:id', TarefaController.updateTarefa)
     .delete('/tarefa/:id', TarefaController.deleteTarefa)
-    .put('/tarefa/concluido/:id', TarefaController.updateUserComplete)
+    .get('/tarefa/all/capa/', TarefaController.getAllByCapa)
 
 module.exports = router;
